@@ -1,0 +1,7 @@
+[{
+  "modid": "gcaoresextended",
+  "name": "GCAOresExtension",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "authorList": ["Lucelarius"]
+}]
