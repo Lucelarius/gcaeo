@@ -4,15 +4,6 @@ import by.lucelarius.gcaoe.block.ores.Ores1;
 import by.lucelarius.gcaoe.block.ores.Ores2;
 import by.lucelarius.gcaoe.block.ores.SmallOres1;
 import by.lucelarius.gcaoe.block.ores.SmallOres2;
-import micdoodle8.mods.galacticraft.planets.asteroids.blocks.AsteroidBlocks;
-import gregapi.block.behaviors.Drops;
-import gregapi.block.behaviors.Drops_SmallOre;
-import gregapi.block.prefixblock.PrefixBlock_;
-import gregapi.code.ItemStackContainer;
-import gregapi.data.CS;
-import gregapi.data.MD;
-import gregapi.data.MT;
-import gregapi.data.OP;
 import net.minecraft.block.Block;
 
 public class Blocks_GCAOE {
