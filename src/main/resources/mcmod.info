@@ -1,7 +1,10 @@
-[{
-  "modid": "gcaoresextended",
-  "name": "GCAOresExtension",
+[
+{
+  "modid": "gcaoe",
+  "name": "GCAOE Mod",
+  "description": "GalactiCraft 3: Asteroid Ores Expansion",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "authorList": ["Lucelarius"]
-}]
+}
+]

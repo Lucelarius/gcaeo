@@ -1,15 +1,19 @@
 buildscript {
     repositories {
+        mavenCentral()
         maven {
-            url "https://repo1.maven.org/maven2" 
+            name = "forge"
+            url = "https://maven.minecraftforge.net/"
         }
         maven {
-            name = "github-repo"
-            url = "https://github.com/juanmuscaria/maven/raw/master"
+            name = "sonatype"
+            url = "https://oss.sonatype.org/content/repositories/snapshots/"
         }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-1.5.6-SNAPSHOT'
+        classpath ('com.anatawa12.forge:ForgeGradle:1.2-1.0.+') {
+			changing = true
+		}
     }
 }
 
@@ -21,33 +25,40 @@ repositories {
 
 apply plugin: 'forge'
 
-version = "1.0"
-group= "by.lucelarius.gtoresasteroid"
-archivesBaseName = "GCAsteroidOresExtended"
+version = "1.0.0"
+group= "by.lucelarius.gcaoe"
+archivesBaseName = "GC3AsteroidOresExpansion"
+
+targetCompatibility = sourceCompatibility = JavaVersion.VERSION_1_8
 
 minecraft {
     version = "1.7.10-10.13.4.1614-1.7.10"
     runDir = "eclipse"
 }
 
+tasks.withType(JavaCompile) {
+	options.encoding = 'UTF-8'
+}
+
 dependencies {
-    compile name: 'gregtech_1.7.10-6.15.10-dev'
-	compile name: 'Galacticraft-Planets-1.7-3.0.12.504'
-	compile name: 'GalacticraftCore-1.7-3.0.12.504'
-	compile name: 'MicdoodleCore-1.7-3.0.12.504'
+	compile name: 'gregtech_1.7.10-6.15.10-dev'
 }
 
 processResources
 {
+    // this will ensure that this task is redone when the versions change.
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
 
+    // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
                 
+        // replace version and mcversion
         expand 'version':project.version, 'mcversion':project.minecraft.version
     }
         
+    // copy everything else, thats not the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }
