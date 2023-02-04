@@ -28,6 +28,7 @@ public class EOreSmall1 extends Block {
     public IIcon[] blockIcons;
     private static final String TEXTURE_PREFIX = GCAOE.MOD_ID + ":smallore/" + "oreSmall";
     public static final Random REXP = new Random();
+    public final int expBase, expRandom;
 
     public EOreSmall1(String assetName) {
         super(Material.rock);
@@ -37,6 +38,8 @@ public class EOreSmall1 extends Block {
         this.setLightOpacity(15);
         this.setBlockName(assetName);
         this.setCreativeTab(CTab.INSTANCE);
+        expBase = Math.max(0, 1);
+        expRandom = Math.max(0, 2);
     }
 
     @SideOnly(Side.CLIENT)
@@ -134,6 +137,6 @@ public class EOreSmall1 extends Block {
 
     public int getExpDrop(IBlockAccess world, int metadata, int fortune)
     {
-        return 1 + REXP.nextInt(1 + 2);
+        return expBase + REXP.nextInt(1 + expRandom);
     }
 }
