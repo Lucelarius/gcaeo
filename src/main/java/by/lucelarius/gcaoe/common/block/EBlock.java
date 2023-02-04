@@ -6,13 +6,7 @@ import by.lucelarius.gcaoe.common.block.ore.EOreSmall1;
 import by.lucelarius.gcaoe.common.block.ore.EOreSmall2;
 import by.lucelarius.gcaoe.common.item.EItem;
 import cpw.mods.fml.common.registry.GameRegistry;
-import gregapi.data.MT;
-import gregapi.data.OP;
 import net.minecraft.block.Block;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
-
-import java.util.ArrayList;
 
 public class EBlock {
     public static Block ore1;
