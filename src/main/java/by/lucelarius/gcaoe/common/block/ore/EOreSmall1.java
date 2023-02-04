@@ -77,7 +77,7 @@ public class EOreSmall1 extends Block {
     public static final OreDictMaterial[] aMaterial = {MT.CertusQuartz, MT.OREMATS.Cooperite, MT.Dolamide, MT.Ir, MT.Nq, MT.Pyrite, MT.OREMATS.Scheelite, MT.OREMATS.Sperrylite, MT.Ke, MT.NULL, MT.NULL, MT.NULL, MT.NULL, MT.NULL, MT.NULL, MT.NULL};
 
     public ArrayList<ItemStack> getDrops(World World, int aX, int aY, int aZ, int aMetaData, int aFortune) {
-        ArrayList<ItemStack> rList = new ArrayListNoNulls<>();
+        ArrayList<ItemStack> rList = new ArrayList<ItemStack>();
         OreDictMaterial mSecondaryDrop = MT.STONES.SpaceRock;
         if (aMaterial[aMetaData] != null) aMaterial[aMetaData] = aMaterial[aMetaData].mTargetCrushing.mMaterial;
 
