@@ -27,6 +27,7 @@ public class EOre1 extends Block {
         this.setLightOpacity(15);
         this.setBlockName(assetName);
         this.setCreativeTab(CTab.INSTANCE);
+        this.setStepSound(soundTypeStone);
     }
 
     @SideOnly(Side.CLIENT)

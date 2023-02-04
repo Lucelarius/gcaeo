@@ -4,6 +4,7 @@ import by.lucelarius.gcaoe.GCAOE;
 import by.lucelarius.gcaoe.common.creative.CTab;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import gregapi.code.ArrayListNoNulls;
 import gregapi.data.MT;
 import gregapi.data.OP;
 import gregapi.oredict.OreDictMaterial;
@@ -37,6 +38,7 @@ public class EOreSmall2 extends Block {
         this.setLightOpacity(15);
         this.setBlockName(assetName);
         this.setCreativeTab(CTab.INSTANCE);
+        this.setStepSound(soundTypeStone);
         expBase = Math.max(0, 1);
         expRandom = Math.max(0, 2);
     }
@@ -78,10 +80,10 @@ public class EOreSmall2 extends Block {
         this.blockIcon = this.blockIcons[0];
     }
 
-
     public static final OreDictMaterial[] aMaterial = {MT.Bi, MT.OREMATS.Coltan, MT.Cu, MT.Craponite, MT.Diamond, MT.Graphite, MT.Pb, MT.Pt, MT.Ag, MT.Sn, MT.Zn, MT.NULL, MT.NULL, MT.NULL, MT.NULL, MT.NULL};
+
     public ArrayList<ItemStack> getDrops(World World, int aX, int aY, int aZ, int aMetaData, int aFortune) {
-        ArrayList<ItemStack> rList = new ArrayList<ItemStack>();
+        ArrayList<ItemStack> rList = new ArrayListNoNulls<>();
         OreDictMaterial mSecondaryDrop = MT.STONES.SpaceRock;
         if (aMaterial[aMetaData] != null) aMaterial[aMetaData] = aMaterial[aMetaData].mTargetCrushing.mMaterial;
 
@@ -98,7 +100,7 @@ public class EOreSmall2 extends Block {
                 if (tStack != null && tRandom.nextInt(10000) <= aFortune) {
                     rList.add(ST.update(tStack));
                 } else {
-                    ArrayList<ItemStack> tSelector = new ArrayList<ItemStack>();
+                    ArrayList<ItemStack> tSelector = new ArrayListNoNulls<>();
                     tStack = OP.gemExquisite.mat(aMaterial[aMetaData], OP.gem.mat(aMaterial[aMetaData], 4), 1);
                     if (tStack != null) for (int i = 0, j = 1; i < j; i++) tSelector.add(tStack);
                     tStack = OP.gemFlawless.mat(aMaterial[aMetaData], OP.gem.mat(aMaterial[aMetaData], 2), 1);
