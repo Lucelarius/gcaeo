@@ -4,6 +4,10 @@ import by.lucelarius.gcaoe.GCAOE;
 import by.lucelarius.gcaoe.common.creative.CTab;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import gregapi.data.MT;
+import gregapi.data.OP;
+import gregapi.oredict.OreDictMaterial;
+import gregapi.util.ST;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -11,13 +15,18 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class EOreSmall2 extends Block {
     @SideOnly(Side.CLIENT)
     public IIcon[] blockIcons;
     private static final String TEXTURE_PREFIX = GCAOE.MOD_ID + ":smallore/" + "oreSmall";
+    public static final Random REXP = new Random();
 
     public EOreSmall2(String assetName) {
         super(Material.rock);
@@ -64,5 +73,68 @@ public class EOreSmall2 extends Block {
         this.blockIcons[9] = reg.registerIcon(TEXTURE_PREFIX + "Tin");
         this.blockIcons[10] = reg.registerIcon(TEXTURE_PREFIX + "Zinc");
         this.blockIcon = this.blockIcons[0];
+    }
+
+
+    public static final OreDictMaterial[] aMaterial = {MT.Bi, MT.OREMATS.Coltan, MT.Cu, MT.Craponite, MT.Diamond, MT.Graphite, MT.Pb, MT.Pt, MT.Ag, MT.Sn, MT.Zn, MT.NULL, MT.NULL, MT.NULL, MT.NULL, MT.NULL};
+    public ArrayList<ItemStack> getDrops(World World, int aX, int aY, int aZ, int aMetaData, int aFortune) {
+        ArrayList<ItemStack> rList = new ArrayList<ItemStack>();
+        OreDictMaterial mSecondaryDrop = MT.STONES.SpaceRock;
+        if (aMaterial[aMetaData] != null) aMaterial[aMetaData] = aMaterial[aMetaData].mTargetCrushing.mMaterial;
+
+        if (aMaterial[aMetaData] != null) {
+            Random tRandom = new Random(aX ^ aY ^ aZ);
+            for (int i = 0; i < 16; i++) tRandom.nextInt(10000);
+            if (aMaterial[aMetaData] == MT.STONES.Gneiss || aMaterial[aMetaData] == MT.PetrifiedWood) {
+                ItemStack tStack = OP.rockGt.mat(aMaterial[aMetaData], 1);
+                for (int i = 0, j = Math.max(1, aMaterial[aMetaData].mOreMultiplier*aMaterial[aMetaData].mOreProcessingMultiplier+(aFortune>0?(tRandom.nextInt((1+aFortune)*aMaterial[aMetaData].mOreMultiplier*aMaterial[aMetaData].mOreProcessingMultiplier)):0)/2+tRandom.nextInt(2)); i < j; i++) {
+                    rList.add(ST.update(ST.copy(tStack)));
+                }
+            } else {
+                ItemStack tStack = OP.gemLegendary.mat(aMaterial[aMetaData], 1);
+                if (tStack != null && tRandom.nextInt(10000) <= aFortune) {
+                    rList.add(ST.update(tStack));
+                } else {
+                    ArrayList<ItemStack> tSelector = new ArrayList<ItemStack>();
+                    tStack = OP.gemExquisite.mat(aMaterial[aMetaData], OP.gem.mat(aMaterial[aMetaData], 4), 1);
+                    if (tStack != null) for (int i = 0, j = 1; i < j; i++) tSelector.add(tStack);
+                    tStack = OP.gemFlawless.mat(aMaterial[aMetaData], OP.gem.mat(aMaterial[aMetaData], 2), 1);
+                    if (tStack != null) for (int i = 0, j = 2; i < j; i++) tSelector.add(tStack);
+                    tStack = OP.gem.mat(aMaterial[aMetaData], 1);
+                    if (tStack != null) for (int i = 0, j = 12; i < j; i++) tSelector.add(tStack);
+
+                    tStack = OP.gemFlawed.mat(aMaterial[aMetaData], 2);
+                    if (tStack != null){for (int i = 0, j = 5; i < j; i++) tSelector.add(tStack);
+                        tStack = OP.crushed.mat(aMaterial[aMetaData], 1);
+                        if (tStack != null) for (int i = 0, j = 10; i < j; i++) tSelector.add(tStack);
+                    } else {
+                        tStack = OP.crushed.mat(aMaterial[aMetaData], 1);
+                        if (tStack != null) for (int i = 0, j = 15; i < j; i++) tSelector.add(tStack);
+                    }
+
+                    tStack = OP.gemChipped.mat(aMaterial[aMetaData], 4);
+                    if (tStack != null){for (int i = 0, j = 5; i < j; i++) tSelector.add(tStack);
+                        tStack = OP.crushed.mat(aMaterial[aMetaData], OP.dust.mat(aMaterial[aMetaData], 1), 1);
+                        if (tStack != null) for (int i = 0, j = 10; i < j; i++) tSelector.add(tStack);
+                    } else {
+                        tStack = OP.crushed.mat(aMaterial[aMetaData], 1);
+                        if (tStack != null) for (int i = 0, j = 15; i < j; i++) tSelector.add(tStack);
+                    }
+
+                    if (tSelector.size() > 0) {
+                        for (int i = 0, j = Math.max(1, aMaterial[aMetaData].mOreMultiplier*aMaterial[aMetaData].mOreProcessingMultiplier+(aFortune>0?(tRandom.nextInt((1+aFortune)*aMaterial[aMetaData].mOreMultiplier*aMaterial[aMetaData].mOreProcessingMultiplier)):0)/2); i < j; i++) {
+                            rList.add(ST.update(ST.copy(tSelector.get(tRandom.nextInt(tSelector.size())))));
+                        }
+                    }
+                }
+            }
+            if (tRandom.nextInt(3+aFortune)>1) rList.add(ST.update(OP.dust.mat(mSecondaryDrop.mTargetCrushing.mMaterial, 1)));
+        }
+        return rList;
+    }
+
+    public int getExpDrop(IBlockAccess world, int metadata, int fortune)
+    {
+        return 1 + REXP.nextInt(1 + 2);
     }
 }
